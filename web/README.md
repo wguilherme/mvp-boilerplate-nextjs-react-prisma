@@ -33,4 +33,18 @@ require('@tailwindcss/forms'), // tailwind.config.js
 // add auth with next auth
 // yarn add next-auth   
 
+
+// config prisma
+yarn add prisma -D 
+yarn add @prisma/client
+yarn prisma init
+
+// create the models in schema.prisma file
+//after, generate migrations:
+
+yarn prisma migrate dev
+
+// open prisma studio to see data
+yarn prisma studio
+
 ```
