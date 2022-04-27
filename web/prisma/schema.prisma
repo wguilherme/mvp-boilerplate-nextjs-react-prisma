@@ -11,11 +11,12 @@ datasource db {
 }
 
 model Task {
-  id        String   @id @default(cuid())
+  id String @id @default(cuid())
 
-  title     String
-  isDone    String
-  
+  title       String
+  description String @default("") // added later than others fields
+  isDone      String
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

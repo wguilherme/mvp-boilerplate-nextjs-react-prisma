@@ -38,6 +38,7 @@ export default function App({ tasks }: TasksProps) {
               <div className="bg-white shadow-lg rounded-lg">
                 <div className="p-4">
                   <h3 className="text-xl font-bold">{task?.title}</h3>
+                  <h3 className="text-xl font-bold">{task?.description}</h3>
                   <h5>{task?.isDone}</h5>
                 </div>
               </div>
@@ -57,6 +58,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
     return {
       id: task.id,
       title: task.title,
+      description: task.description,
       isDone: task.isDone,
       date: task.createdAt.toISOString()
     }
