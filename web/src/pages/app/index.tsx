@@ -1,6 +1,7 @@
 import { Task } from "@prisma/client";
 import { GetServerSideProps } from "next";
 import { signOut, useSession } from "next-auth/react";
+import { FormEvent, useState } from "react";
 import { prisma } from "../../lib/prisma";
 
 type TasksProps = {
@@ -8,9 +9,29 @@ type TasksProps = {
 }
 
 export default function App({ tasks }: TasksProps) {
-
+  const [newTask, setNewTask] = useState({
+    title: "",
+    description: "",
+  })
 
   const { data } = useSession();
+
+
+  async function handleCreateTask(event: FormEvent) {
+    event.preventDefault();
+
+    await fetch('http://localhost:3002/api/tasks/create', {
+      method: 'POST',
+      body: JSON.stringify({ title: newTask }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+
+
+    })
+  }
+
+  console.log('newTask', newTask)
   return (
     <div >
 
@@ -27,6 +48,26 @@ export default function App({ tasks }: TasksProps) {
             callbackUrl: '/',
           }
         )}>Sair da conta</button>
+      </div>
+
+      {/* for for create tasks using tailwind */}
+      <div>
+        <h1>Minhas tarefas</h1>
+
+        <form onSubmit={handleCreateTask}>
+          <input type="text" name="title" placeholder="Título" onChange={e => setNewTask({
+            ...newTask,
+            title: e.target.value
+          })} />
+          <input type="text" name="description" placeholder="Descrição" onChange={e => setNewTask({
+            ...newTask,
+            description: e.target.value
+          })} />
+          <button type="submit">Criar tarefa</button>
+
+        </form>
+
+
       </div>
 
       <div>
