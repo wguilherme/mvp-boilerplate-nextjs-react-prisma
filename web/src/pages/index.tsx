@@ -1,6 +1,30 @@
 import { LockClosedIcon, LoginIcon } from '@heroicons/react/outline';
-import { signIn } from 'next-auth/react';
+import { GetServerSideProps } from 'next';
+import { getSession, signIn, useSession } from 'next-auth/react';
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const session = await getSession({ req })
+
+  // user authenticated
+  if (session) {
+    return {
+      redirect: {
+        destination: '/app',
+        permanent: false,
+      }
+    }
+
+  }
+  return {
+    props: {
+
+    }
+  }
+};
+
 export default function SignIn() {
+
+  const { data } = useSession();
 
   function handleSignIn() {
     signIn('github');
@@ -24,6 +48,7 @@ export default function SignIn() {
               Ou{' '}
               <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
                 comece grátis por 14 dias
+
               </a>
             </p>
           </div>
