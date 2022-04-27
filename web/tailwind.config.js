@@ -1,8 +1,7 @@
 module.exports = {
-  mode: 'jit', // bundle only used files
   content: [
     './src/components/**/*.tsx',
-    './src/page/**/*.tsx',
+    './src/pages/**/*.tsx',
   ],
   theme: {
     extend: {},
