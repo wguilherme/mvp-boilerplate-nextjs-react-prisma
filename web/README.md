@@ -29,4 +29,8 @@ npx tailwind init -p
 yarn add @tailwindcss/forms -D
 require('@tailwindcss/forms'), // tailwind.config.js
 
+
+// add auth with next auth
+// yarn add next-auth   
+
 ```
