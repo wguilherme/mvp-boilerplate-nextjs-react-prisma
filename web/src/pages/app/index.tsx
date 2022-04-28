@@ -1,6 +1,7 @@
 import { Task } from "@prisma/client";
 import { GetServerSideProps } from "next";
 import { getSession, signOut, useSession } from "next-auth/react";
+import { useRouter } from 'next/router';
 import { FormEvent, useEffect, useState } from "react";
 import { prisma } from "../../lib/prisma";
 
@@ -11,6 +12,8 @@ type TasksProps = {
 
 export default function App({ tasks }: TasksProps) {
   const { data } = useSession();
+  const router = useRouter();
+  const [taskList, setTaskList] = useState<any>(tasks);
 
   const [newTask, setNewTask] = useState({
     title: "",
@@ -25,18 +28,39 @@ export default function App({ tasks }: TasksProps) {
     })
   }, [data])
 
-  console.log('newTask', newTask)
+  const refreshData = () => {
+    router.replace(router.asPath);
+  }
+
+
 
   async function handleCreateTask(event: FormEvent) {
-    event.preventDefault();
+    try {
+      event.preventDefault();
 
-    await fetch('http://localhost:3000/api/tasks/create', {
-      method: 'POST',
-      body: JSON.stringify({ ...newTask, email: data?.user?.email }),
-      headers: {
-        'Content-Type': 'application/json'
+      const taskData = {
+        ...newTask,
+        email: data?.user?.email
       }
-    })
+
+      await fetch('http://localhost:3000/api/tasks/create', {
+        method: 'POST',
+        body: JSON.stringify(taskData),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+
+      const newTaskList: any = [...taskList, taskData];
+      setTaskList(newTaskList);
+
+
+    } catch (error) {
+      console.log('ocorreu um erro', error)
+    }
+    finally {
+      refreshData();
+    }
   }
 
 
@@ -70,12 +94,13 @@ export default function App({ tasks }: TasksProps) {
           })} />
           <button type="submit">Criar tarefa</button>
         </form>
+        {JSON.stringify(taskList.length)}
       </div>
       <div>
         <h2>Minhas tarefas</h2>
         {/* task list using tailwind */}
         <div className="flex flex-wrap -space-y-px">
-          {tasks?.map((task: any) => (
+          {taskList?.map((task: any) => (
             <div key={task.id} className="w-full sm:w-1/2 p-3">
               <div className="bg-white shadow-lg rounded-lg">
                 <div className="p-4">

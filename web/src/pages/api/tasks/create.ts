@@ -11,5 +11,5 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       email
     }
   })
-
+  res.status(200).json({ message: "Task created" })
 }
