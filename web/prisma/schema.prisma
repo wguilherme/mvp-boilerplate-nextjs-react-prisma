@@ -1,14 +1,27 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  // recommended in planetscale documentation
+  previewFeatures = ["referentialIntegrity"]
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  // mysql for planetscale
+  provider = "mysql"
+  // provider             = "postgresql"
+
+  url                  = env("DATABASE_URL")
+  // add shadow database
+  shadowDatabaseUrl    = env("SHADOW_DATABASE_URL")
+  // recommended in planetscale documentation
+  referentialIntegrity = "prisma"
 }
 
 model Task {
-  id    String @id @default(cuid())
+  // used this into postgres -> not tested in mysql
+  // id    String @id @default(cuid())
+
+  // for mysql, using this:
+  id    Int    @id @default(autoincrement())
   title String
 
   description String  @default("")
