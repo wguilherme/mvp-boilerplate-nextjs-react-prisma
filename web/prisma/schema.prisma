@@ -25,6 +25,7 @@ model Task {
   title String
 
   description String  @default("")
+  email       String  @default("")
   isDone      Boolean @default(false)
 
   createdAt DateTime @default(now())

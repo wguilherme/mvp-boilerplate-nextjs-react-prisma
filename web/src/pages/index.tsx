@@ -4,7 +4,6 @@ import { getSession, signIn, useSession } from 'next-auth/react';
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const session = await getSession({ req })
-
   // user authenticated
   if (session) {
     return {
@@ -13,11 +12,10 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
         permanent: false,
       }
     }
-
   }
   return {
     props: {
-
+      session,
     }
   }
 };
@@ -29,9 +27,6 @@ export default function SignIn() {
   function handleSignIn() {
     signIn('github');
   }
-
-
-
 
   return (
     <>
@@ -48,7 +43,6 @@ export default function SignIn() {
               Ou{' '}
               <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
                 comece grátis por 14 dias
-
               </a>
             </p>
           </div>
@@ -84,7 +78,6 @@ export default function SignIn() {
                 />
               </div>
             </div>
-
             <div className="flex items-center justify-between">
               <div className="flex items-center">
                 <input
@@ -97,14 +90,12 @@ export default function SignIn() {
                   Lembrar
                 </label>
               </div>
-
               <div className="text-sm">
                 <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
                   Esqueceu sua senha?
                 </a>
               </div>
             </div>
-
             <div>
               <button
                 type="submit"
@@ -130,8 +121,6 @@ export default function SignIn() {
                   </div>
                 </div>
               </div>
-
-
             </div>
             <div className="pt-10 grid grid-cols-3">
               <div>
@@ -145,15 +134,11 @@ export default function SignIn() {
                   </span>
                   Github
                 </button>
-
               </div>
-
             </div>
           </div>
         </div>
       </div>
-
     </>
-
   )
 }

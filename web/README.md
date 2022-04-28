@@ -58,15 +58,14 @@ pscale branch create <database-name> shadow
 pscale connect <database-name> initial-setup --port 3309
 pscale connect <database-name> shadow --port 3310
 
-pscale connect devbrainy initial-setup --port 3309
-pscale connect devbrainy shadow --port 3310
+
 
 // after that, run migration exactly like this:
 npx prisma migrate dev --name init 
 
 //If all goes well, we should see a success message in our terminal, as well as a new migrations folder in our project. Now, it's time to open a deploy-request to bring these changes over to our main database branch.
 
-pscale deploy-request create <database-name> initial-setup
+pscale deploy-request create <database-name> <deploy-request-name> // send a name for "commit" a deploy request
 
 // if database is not em production, set this in planetscale
 // PS.: Production branches are protected from direct schema changes, allow non-blocking deploy requests for schema changes with branches, utilize automated backups, and are made highly available.
@@ -81,7 +80,7 @@ click in promote branch to production into app.planetscale.com dashboard
 
 //Now that we have our main branch updated, go ahead and shut down both terminals that have been connected to PlanetScale, and let's rerun a command to open a connection to our main branch on port 3309, so we can add a Post record to our database
 
-// PS: this will connect into main db branch
+// PS: this will connect into main db branch (production database)
 pscale connect <database-name> main --port 3309  
 
 

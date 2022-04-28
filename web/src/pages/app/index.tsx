@@ -1,42 +1,48 @@
 import { Task } from "@prisma/client";
 import { GetServerSideProps } from "next";
-import { signOut, useSession } from "next-auth/react";
-import { FormEvent, useState } from "react";
+import { getSession, signOut, useSession } from "next-auth/react";
+import { FormEvent, useEffect, useState } from "react";
 import { prisma } from "../../lib/prisma";
+
 
 type TasksProps = {
   tasks: Task[]
 }
 
 export default function App({ tasks }: TasksProps) {
+  const { data } = useSession();
+
   const [newTask, setNewTask] = useState({
     title: "",
     description: "",
+    email: "",
   })
 
-  const { data } = useSession();
+  useEffect(() => {
+    setNewTask({
+      ...newTask,
+      email: data?.user?.email
+    })
+  }, [data])
 
+  console.log('newTask', newTask)
 
   async function handleCreateTask(event: FormEvent) {
     event.preventDefault();
 
-    await fetch('http://localhost:3002/api/tasks/create', {
+    await fetch('http://localhost:3000/api/tasks/create', {
       method: 'POST',
-      body: JSON.stringify({ title: newTask }),
+      body: JSON.stringify({ ...newTask, email: data?.user?.email }),
       headers: {
         'Content-Type': 'application/json'
       }
-
-
     })
   }
 
-  console.log('newTask', newTask)
+
   return (
     <div >
-
       <div>
-
         <h1>Minha conta</h1>
         <p>Bem-vindo, {data?.user?.name}</p>
         <p>Email: {data?.user?.email}</p>
@@ -53,7 +59,6 @@ export default function App({ tasks }: TasksProps) {
       {/* for for create tasks using tailwind */}
       <div>
         <h1>Minhas tarefas</h1>
-
         <form onSubmit={handleCreateTask}>
           <input type="text" name="title" placeholder="Título" onChange={e => setNewTask({
             ...newTask,
@@ -64,18 +69,14 @@ export default function App({ tasks }: TasksProps) {
             description: e.target.value
           })} />
           <button type="submit">Criar tarefa</button>
-
         </form>
-
-
       </div>
-
       <div>
         <h2>Minhas tarefas</h2>
         {/* task list using tailwind */}
         <div className="flex flex-wrap -space-y-px">
-          {tasks?.map(task => (
-            <div className="w-full sm:w-1/2 p-3">
+          {tasks?.map((task: any) => (
+            <div key={task.id} className="w-full sm:w-1/2 p-3">
               <div className="bg-white shadow-lg rounded-lg">
                 <div className="p-4">
                   <h3 className="text-xl font-bold">{task?.title}</h3>
@@ -86,14 +87,21 @@ export default function App({ tasks }: TasksProps) {
             </div>
           ))}
         </div>
-
       </div>
     </div>
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const tasks: any = await prisma.task.findMany()
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+
+  const session = await getSession({ req });
+  // console.log('session debug props', session?.user?.email)
+
+  const tasks: any = await prisma.task.findMany({
+    where: {
+      email: session?.user?.email
+    }
+  })
 
   const data = tasks.map(task => {
     return {
@@ -107,7 +115,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
 
 
-  console.log(tasks)
   return {
     props: {
       tasks: data
