@@ -31,8 +31,8 @@ export default function SignIn() {
 
   return (
     <>
-      <div className="h-screen bg-gray-50 min-h-full flex items-center justify-center ">
-        <div className="max-w-md w-full space-y-8 bg-white p-10">
+      <div className="h-screen bg-slate-100 min-h-full flex items-center justify-center ">
+        <div className="max-w-md w-full space-y-8 bg-white p-10 rounded-lg">
           <div>
             {/* <img
               className="mx-auto h-12 w-auto"
