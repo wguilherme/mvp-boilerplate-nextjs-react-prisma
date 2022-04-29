@@ -1,6 +1,6 @@
 export function TaskList({ children }) {
   return (
-    <div className="flex flex-wrap -space-y-px">
+    <div className="w-full mt-8">
       {children}
     </div>
   )

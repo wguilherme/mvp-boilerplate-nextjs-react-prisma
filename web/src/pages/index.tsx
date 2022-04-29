@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { LockClosedIcon, LoginIcon } from '@heroicons/react/outline';
 import { GetServerSideProps } from 'next';
 import { getSession, signIn, useSession } from 'next-auth/react';
@@ -8,7 +9,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   if (session) {
     return {
       redirect: {
-        destination: '/app',
+        destination: '/tasks',
         permanent: false,
       }
     }
@@ -108,7 +109,7 @@ export default function SignIn() {
               </button>
             </div>
           </form>
-          {/* or continue with github */}
+
           <div className="mt-6">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
