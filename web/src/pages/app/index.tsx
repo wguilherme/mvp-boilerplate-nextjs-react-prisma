@@ -3,6 +3,7 @@ import { GetServerSideProps } from "next";
 import { getSession, signOut, useSession } from "next-auth/react";
 import { useRouter } from 'next/router';
 import { FormEvent, useEffect, useState } from "react";
+import { TaskItem, TaskList } from "../../components/Task";
 import { prisma } from "../../lib/prisma";
 
 
@@ -99,19 +100,15 @@ export default function App({ tasks }: TasksProps) {
       <div>
         <h2>Minhas tarefas</h2>
         {/* task list using tailwind */}
-        <div className="flex flex-wrap -space-y-px">
+
+        <TaskList>
+
           {taskList?.map((task: any) => (
-            <div key={task.id} className="w-full sm:w-1/2 p-3">
-              <div className="bg-white shadow-lg rounded-lg">
-                <div className="p-4">
-                  <h3 className="text-xl font-bold">{task?.title}</h3>
-                  <h3 className="text-xl font-light">{task?.description}</h3>
-                  <h5>Completed: {task?.isDone}</h5>
-                </div>
-              </div>
-            </div>
+            <TaskItem task={task} key={task.id} />
+
           ))}
-        </div>
+        </TaskList>
+
       </div>
     </div>
   )
