@@ -1,9 +1,9 @@
+import { TaskItem, TaskList } from "@/components";
 import { Task } from "@prisma/client";
 import { GetServerSideProps } from "next";
 import { getSession, signOut, useSession } from "next-auth/react";
 import { useRouter } from 'next/router';
 import { FormEvent, useEffect, useState } from "react";
-import { TaskItem, TaskList } from "../../components/Task";
 import { prisma } from "../../lib/prisma";
 
 
@@ -115,9 +115,7 @@ export default function App({ tasks }: TasksProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-
   const session = await getSession({ req });
-  // console.log('session debug props', session?.user?.email)
 
   const tasks: any = await prisma.task.findMany({
     where: {
@@ -134,8 +132,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
       date: task.createdAt.toISOString()
     }
   })
-
-
 
   return {
     props: {

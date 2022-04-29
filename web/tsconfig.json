@@ -17,13 +17,20 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "baseUrl": ".",
+    "paths": {
+      "@/components": [
+        "src/components"
+      ]
+    }
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
-, "src/pages/api/auth/[...nextauth].ts"  ],
+    "**/*.tsx",
+    "src/pages/api/auth/[...nextauth].ts"
+  ],
   "exclude": [
     "node_modules"
   ]
