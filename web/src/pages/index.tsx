@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { LockClosedIcon, LoginIcon } from '@heroicons/react/outline';
+import { LoginIcon } from '@heroicons/react/outline';
 import { GetServerSideProps } from 'next';
 import { getSession, signIn, useSession } from 'next-auth/react';
 
@@ -31,23 +31,33 @@ export default function SignIn() {
 
   return (
     <>
-      <div className="h-screen bg-gray-50 min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="h-screen bg-gray-50 min-h-full flex items-center justify-center ">
         <div className="max-w-md w-full space-y-8 bg-white p-10">
           <div>
-            <img
+            {/* <img
               className="mx-auto h-12 w-auto"
               src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
               alt="Workflow"
-            />
+            /> */}
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Acesse sua conta</h2>
-            <p className="mt-2 text-center text-sm text-gray-600">
-              Ou{' '}
-              <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
-                comece grátis por 14 dias
-              </a>
-            </p>
+
+
+
+
+            <div className="px-6">
+              <button
+                onClick={handleSignIn}
+                type="button"
+                className="mt-5 relative w-full flex justify-center py-2  border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                <span className="absolute left-0 inset-y-0 flex items-center pl-3">
+                  <LoginIcon className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" />
+                </span>
+                Github
+              </button>
+            </div>
           </div>
-          <form className="mt-8 space-y-6" action="#" method="POST">
+          {/* <form className="mt-8 space-y-6" action="#" method="POST">
             <input type="hidden" name="remember" defaultValue="true" />
             <div className="rounded-md shadow-sm -space-y-px">
               <div>
@@ -108,36 +118,9 @@ export default function SignIn() {
                 Fazer Login
               </button>
             </div>
-          </form>
+          </form> */}
 
-          <div className="mt-6">
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-300">
-                  <div className="bg-white h-px flex-1" />
-                  <div className="relative flex justify-center text-sm leading-5">
-                    <span className="px-2 bg-white text-gray-500">
-                      Ou continue com
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="pt-10 grid grid-cols-3">
-              <div>
-                <button
-                  onClick={handleSignIn}
-                  type="button"
-                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                  <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                    <LoginIcon className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" />
-                  </span>
-                  Github
-                </button>
-              </div>
-            </div>
-          </div>
+
         </div>
       </div>
     </>
